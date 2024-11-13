@@ -14,7 +14,7 @@ public class Calculadora_Proyecto {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new Interfaz().setVisible(true);        // iniciar la interfaz
     }
     
 }
