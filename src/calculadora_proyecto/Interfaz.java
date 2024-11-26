@@ -5,6 +5,7 @@
 package calculadora_proyecto;
 
 import java.io.*;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +18,8 @@ public class Interfaz extends javax.swing.JFrame {
     
     public float fnum, snum;
     public String operador;
+    private File archivoActual; // Archivo actualmente cargado
+
 
     /**
      * Creates new form Interfaz
@@ -24,6 +27,7 @@ public class Interfaz extends javax.swing.JFrame {
     public Interfaz() {
         initComponents();
         this.setLocationRelativeTo(null);       // forzar que se muestre en el centro
+        this.jMenuItem3.setVisible(false);
     }
 
     /**
@@ -154,12 +158,12 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora Chida");
 
         btnClear.setBackground(new java.awt.Color(255, 204, 204));
-        btnClear.setMnemonic(',');
         btnClear.setText("Clear");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,7 +171,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn1.setMnemonic('1');
         btn1.setText("1");
         btn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,7 +178,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn2.setMnemonic('4');
         btn2.setText("4");
         btn2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,7 +185,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn3.setMnemonic('7');
         btn3.setText("7");
         btn3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,7 +192,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn4.setMnemonic('2');
         btn4.setText("2");
         btn4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +199,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn5.setMnemonic('3');
         btn5.setText("3");
         btn5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,7 +206,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn6.setMnemonic('5');
         btn6.setText("5");
         btn6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,7 +213,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn7.setMnemonic('6');
         btn7.setText("6");
         btn7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,7 +220,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn8.setMnemonic('8');
         btn8.setText("8");
         btn8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +227,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn9.setMnemonic('9');
         btn9.setText("9");
         btn9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,7 +234,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn10.setMnemonic('0');
         btn10.setText("0");
         btn10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,7 +242,6 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         btnMas.setBackground(new java.awt.Color(204, 255, 255));
-        btnMas.setMnemonic('+');
         btnMas.setText("+");
         btnMas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,7 +250,6 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         btnMenos.setBackground(new java.awt.Color(204, 255, 255));
-        btnMenos.setMnemonic('-');
         btnMenos.setText("-");
         btnMenos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,7 +258,6 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         btnPor.setBackground(new java.awt.Color(204, 255, 255));
-        btnPor.setMnemonic('*');
         btnPor.setText("x");
         btnPor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,7 +266,6 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         btnDiv.setBackground(new java.awt.Color(204, 255, 255));
-        btnDiv.setMnemonic('/');
         btnDiv.setText("÷");
         btnDiv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,7 +277,6 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setText("Historial");
 
         btnIgual.setBackground(new java.awt.Color(204, 204, 204));
-        btnIgual.setMnemonic('=');
         btnIgual.setText("=");
         btnIgual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,7 +296,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        btn11.setMnemonic('.');
         btn11.setText(".");
         btn11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,13 +304,13 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         lblNum.setBackground(new java.awt.Color(255, 255, 255));
+        lblNum.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblNum.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNum.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         lblNum.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         lblNum.setOpaque(true);
 
         btnClear1.setBackground(new java.awt.Color(204, 255, 204));
-        btnClear1.setMnemonic('m');
         btnClear1.setText("←");
         btnClear1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,6 +320,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/importar.png"))); // NOI18N
         jMenuItem1.setText("Importar");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,6 +329,7 @@ public class Interfaz extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/exportar.png"))); // NOI18N
         jMenuItem2.setText("Exportar");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,6 +337,16 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/disco-flexible.png"))); // NOI18N
+        jMenuItem3.setText("Guardar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
 
@@ -394,28 +394,20 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(btnDiv, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnIgual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblNum, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(LimpiarH))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(LimpiarH))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNum, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -453,8 +445,14 @@ public class Interfaz extends javax.swing.JFrame {
                                     .addComponent(btn10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(129, 129, 129)
-                                    .addComponent(btn11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(btn11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LimpiarH)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1))))
         );
 
         pack();
@@ -513,6 +511,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void LimpiarHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarHActionPerformed
         this.areaHistorial.setText("");
+        this.jMenuItem3.setVisible(false);
     }//GEN-LAST:event_LimpiarHActionPerformed
 
     private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
@@ -559,6 +558,11 @@ public class Interfaz extends javax.swing.JFrame {
         //exportar
         exportarHistorial();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        //guardar
+        guardarHistorial();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     
     
     private void exportarHistorial() {
@@ -578,7 +582,6 @@ public class Interfaz extends javax.swing.JFrame {
 
             try (FileWriter writer = new FileWriter(fileToSave)) {
                 writer.write(areaHistorial.getText());
-                JOptionPane.showMessageDialog(this, "Historial guardado exitosamente como .txt.");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error al guardar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -594,16 +597,31 @@ public class Interfaz extends javax.swing.JFrame {
         int userSelection = fileChooser.showOpenDialog(this);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToOpen = fileChooser.getSelectedFile();
+            archivoActual = fileChooser.getSelectedFile(); // Guardar la referencia al archivo actual
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(fileToOpen))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(archivoActual))) {
                 areaHistorial.read(reader, null);
-                JOptionPane.showMessageDialog(this, "Historial cargado exitosamente.");
+                this.jMenuItem3.setVisible(true);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+    
+    private void guardarHistorial() {
+        if (archivoActual != null) { // Asegurarse de que hay un archivo cargado
+            try (FileWriter writer = new FileWriter(archivoActual)) {
+                writer.write(areaHistorial.getText());
+                JOptionPane.showMessageDialog(this, "Historial guardado exitosamente.");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al guardar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay un archivo cargado para guardar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+
 
 
 
@@ -669,6 +687,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNum;
     // End of variables declaration//GEN-END:variables
