@@ -28,6 +28,9 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);       // forzar que se muestre en el centro
         this.jMenuItem3.setVisible(false);
+        
+        //agregar icono
+        setIconImage(new ImageIcon(getClass().getResource("/icons/calculadora.png")).getImage());
     }
 
     /**
@@ -448,8 +451,8 @@ public class Interfaz extends javax.swing.JFrame {
                                     .addComponent(btn11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(LimpiarH)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LimpiarH, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))))
